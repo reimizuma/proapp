@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proapp.ProappController">
+   <children>
+      <Button fx:id="newset" layoutX="344.0" layoutY="25.0" mnemonicParsing="false" onAction="#onnewset" text="新規登録" />
+      <Button fx:id="clear" layoutX="425.0" layoutY="25.0" mnemonicParsing="false" text="表示クリア" />
+      <Button fx:id="check" layoutX="505.0" layoutY="25.0" mnemonicParsing="false" text="チェックモード" />
+      <TableView fx:id="table" layoutX="14.0" layoutY="76.0" prefHeight="310.0" prefWidth="572.0">
+         <columns>
+            <TableColumn fx:id="AssetcodeCol" prefWidth="267.0" text="資産コード" />
+            <TableColumn fx:id="AssetCol" minWidth="0.0" prefWidth="92.0" text="資産名" />
+            <TableColumn fx:id="AdminCol" minWidth="0.0" prefWidth="72.0" text="管理者" />
+            <TableColumn fx:id="PlaceCol" minWidth="5.0" prefWidth="70.0" text="管理場所" />
+            <TableColumn fx:id="NumberCol" minWidth="3.0" prefWidth="70.0" text="個数" />
+         </columns>
+      </TableView>
+      <ComboBox fx:id="search1" layoutX="14.0" layoutY="25.0" onAction="#selecter1" prefWidth="150.0" />
+      <ComboBox fx:id="search2" layoutX="164.0" layoutY="25.0" onAction="#selecter2" prefWidth="150.0" />
+   </children>
+</AnchorPane>
