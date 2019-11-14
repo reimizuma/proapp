@@ -33,6 +33,9 @@ public class ProappController {
     private ObservableList<Data> data;
 
     @FXML
+    private TableColumn checkCol;
+
+    @FXML
     private ComboBox<String> search1;
     @FXML
     private ComboBox<String> search2;
@@ -83,6 +86,7 @@ public class ProappController {
 
     @FXML
     public void selecter1(ActionEvent e) {
+        checkCol.setCellFactory(CheckBoxTableCell.forTableColumn(checkCol));
         ObservableList<String> items2 = FXCollections.observableArrayList("32443124324", "4324325352", "4342425");
         ObservableList<String> items3 = FXCollections.observableArrayList("宇都木", "島川", "宮田", "川村", "内田", "山野辺", "大島", "須志田", "佐藤");
         ObservableList<String> items4 = FXCollections.observableArrayList("宇都木研", "島川研", "宮田研", "川村研", "内田研", "山野辺研", "大島研", "須志田研", "佐藤研");

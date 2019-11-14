@@ -5,16 +5,20 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="126.0" prefWidth="363.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="126.0" prefWidth="363.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proapp.ConfirmationController">
    <children>
-      <Text layoutX="73.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="上記の情報で登録してよろしいですか？" wrappingWidth="239.13671875" />
-      <Text layoutX="14.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="84.13671875" />
-      <Text layoutX="98.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="84.13671875" />
-      <Text layoutX="218.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-      <Text layoutX="279.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-      <Text layoutX="326.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-      <Button layoutX="72.0" layoutY="87.0" mnemonicParsing="false" text="はい" />
-      <Button layoutX="214.0" layoutY="87.0" mnemonicParsing="false" text="いいえ" />
+      <Text layoutX="73.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="上記の情報で登録してよろしいですか？" wrappingWidth="239.13671875" />
+      <Text fx:id="text1" layoutX="18.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="110.13671875" />
+      <Text fx:id="text2" layoutX="128.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="48.515625" />
+      <Text fx:id="text3" layoutX="181.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+      <Text fx:id="text4" layoutX="229.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="73.13671875" />
+      <Text fx:id="text5" layoutX="313.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+      <Button fx:id="hai" layoutX="72.0" layoutY="87.0" mnemonicParsing="false" onAction="#onhai" text="はい" />
+      <Button fx:id="iie" layoutX="214.0" layoutY="87.0" mnemonicParsing="false" onAction="#oniie" text="いいえ" />
+      <Text layoutX="16.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="資産コード" />
+      <Text layoutX="128.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="資産名" />
+      <Text layoutX="175.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="管理者" />
+      <Text layoutX="229.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="管理場所" />
+      <Text layoutX="312.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="数量" />
    </children>
 </Pane>

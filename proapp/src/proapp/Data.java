@@ -15,7 +15,6 @@ public class Data {
         this.Number = Number;
     }
 
-    /* getter,setterがないとTableViewに反映されない */
     public String getAssetcode() {
         return Assetcode;
     }
