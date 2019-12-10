@@ -7,18 +7,18 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proapp.ProappController">
    <children>
       <Button fx:id="newset" layoutX="344.0" layoutY="25.0" mnemonicParsing="false" onAction="#onnewset" text="新規登録" />
-      <Button fx:id="clear" layoutX="507.0" layoutY="25.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="74.0" />
       <TableView fx:id="table" layoutX="14.0" layoutY="76.0" prefHeight="310.0" prefWidth="572.0">
          <columns>
             <TableColumn fx:id="checkCol" minWidth="9.0" prefWidth="30.0" text="☑" />
             <TableColumn fx:id="AssetcodeCol" prefWidth="226.0" text="資産コード" />
             <TableColumn fx:id="AssetCol" minWidth="0.0" prefWidth="84.0" text="資産名" />
             <TableColumn fx:id="AdminCol" minWidth="0.0" prefWidth="73.0" text="管理者" />
-            <TableColumn fx:id="PlaceCol" minWidth="5.0" prefWidth="115.0" text="管理場所" />
-            <TableColumn fx:id="NumberCol" minWidth="3.0" prefWidth="43.0" text="個数" />
+            <TableColumn fx:id="PlaceCol" minWidth="5.0" prefWidth="76.0" text="管理場所" />
+            <TableColumn fx:id="NumberCol" minWidth="3.0" prefWidth="57.0" text="個数" />
          </columns>
       </TableView>
       <ComboBox fx:id="search1" layoutX="14.0" layoutY="25.0" onAction="#selecter1" prefWidth="150.0" />
       <ComboBox fx:id="search2" layoutX="164.0" layoutY="25.0" onAction="#selecter2" prefWidth="150.0" />
+      <Button fx:id="change" layoutX="460.0" layoutY="25.0" mnemonicParsing="false" onAction="#onchange" text="編集" />
    </children>
 </AnchorPane>

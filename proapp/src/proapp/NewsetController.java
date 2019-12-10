@@ -15,6 +15,15 @@ import java.io.IOException;
 
 public class NewsetController {
 
+    public int isNumber(String num) {
+        try {
+            Integer.parseInt(num);
+            return 1;
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
+
     @FXML
     private ComboBox<String> Admin;
     @FXML
@@ -28,19 +37,66 @@ public class NewsetController {
 
     @FXML
     void initialize() {
+        Assetcode.setPromptText("入力されていません"); //未入力テキスト
+        Assetcode.setFocusTraversable(false);
+        Asset.setPromptText("入力されていません"); //未入力テキスト
+        Asset.setFocusTraversable(false);
+        Admin.setPromptText("選択されていません"); //未入力テキスト
+        Admin.setFocusTraversable(false);
+        Place.setPromptText("選択されていません"); //未入力テキスト
+        Place.setFocusTraversable(false);
+        Number.setPromptText("入力されていません"); //未入力テキスト
+        Number.setFocusTraversable(false);
         ObservableList<String> items1 = FXCollections.observableArrayList("宇都木", "島川", "川村");
-        ObservableList<String> items2 = FXCollections.observableArrayList("宇都木研究室", "島川研究室", "川村研究室");
+        ObservableList<String> items2 = FXCollections.observableArrayList("宇都木研", "島川研", "川村研");
         Admin.setItems(items1);
         Place.setItems(items2);
     }
 
     public void onset(ActionEvent e) {
-        try {
-            showSecondWindow();
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+        String AC = Assetcode.getText();
+        String AD = Admin.getValue();
+        String P = Place.getValue();
+        String N = Number.getText();
+        if (AC.isEmpty()) {
+            try {
+                showThirdWindow();
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+        } else {
+            if (AD != null && P != null) {
+                if(N.isEmpty()) {
+                    try {
+                        showSecondWindow();
+                    } catch (Exception ex) {
+                        System.out.println(ex.getMessage());
+                    }
+                } else {
+                    if (isNumber(N) == 1) {
+                        try {
+                            showSecondWindow();
+                        } catch (Exception ex) {
+                            System.out.println(ex.getMessage());
+                        }
+                    } else {
+                        try {
+                            showFourthWindow();
+                        } catch (Exception ex) {
+                            System.out.println(ex.getMessage());
+                        }
+                    }
+                }
+            } else {
+                try {
+                    showThirdWindow();
+                } catch (Exception ex) {
+                    System.out.println(ex.getMessage());
+                }
+            }
         }
     }
+
 
     @FXML
     private Button yameru;
@@ -51,16 +107,41 @@ public class NewsetController {
     }
 
     void showSecondWindow() throws IOException {
-
         String AC = Assetcode.getText();
         String A = Asset.getText();
         String AD = Admin.getValue();
         String P = Place.getValue();
         String N = Number.getText();
 
+        if(A.isEmpty()){
+            A = "入力されていません";
+        }
+        if(N.isEmpty()){
+            N = "入力されていません";
+        }
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("confirmation.fxml"));
         Pane root = (Pane) loader.load();
         ((ConfirmationController) loader.getController()).setParam(AC, A, AD, P, N);
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.showAndWait();
+    }
+
+
+    void showThirdWindow() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("err1.fxml"));
+        Pane root = (Pane) loader.load();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.showAndWait();
+    }
+
+    void showFourthWindow() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("err2.fxml"));
+        Pane root = (Pane) loader.load();
         Scene scene = new Scene(root);
         Stage stage = new Stage();
         stage.setScene(scene);
