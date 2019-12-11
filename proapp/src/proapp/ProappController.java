@@ -1,6 +1,7 @@
 package proapp;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.*;
 import java.io.*;
@@ -9,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import java.io.File;
@@ -19,10 +21,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.CheckBoxTableCell;
-
-import javax.swing.text.html.parser.Entity;
+import javafx.scene.input.MouseEvent;
 
 public class ProappController {
+
+    private static int tabledatecount;
 
     private static ArrayList<Integer> counter = new ArrayList<Integer>();
 
@@ -43,8 +46,6 @@ public class ProappController {
     @FXML
     private TableColumn DayCol;
     @FXML
-    private TableColumn DeleteCol;
-    @FXML
     private ObservableList<Data> data;
 
     @FXML
@@ -55,10 +56,19 @@ public class ProappController {
     @FXML
     private int count;
 
+    public ContextMenu menu = new ContextMenu();
+
+    public MenuItem[] menui = new MenuItem[1];
+
     @FXML
     void initialize() {
+        table.setOnMouseClicked(this::mouseClicked);
 
+        tabledatecount = -1;
 
+        menui[0] = new MenuItem( "削除" );
+        menu.getItems().addAll( menui );
+        menu.equals("削除");
 
         counter.add(-1);
 
@@ -70,7 +80,6 @@ public class ProappController {
         table.itemsProperty().setValue(data);
         table.setItems(data);
 
-        DeleteCol.setCellFactory(new ButtonCellFactory<Entity>("削除", e -> onTableButtonClick(e)));
         checkCol.setCellValueFactory(new PropertyValueFactory<Data, Boolean>("Check"));
         AssetcodeCol.setCellValueFactory(new PropertyValueFactory<Data, String>("Assetcode"));
         AssetCol.setCellValueFactory(new PropertyValueFactory<Data, String>("Asset"));
@@ -87,9 +96,43 @@ public class ProappController {
         NumberCol.setCellFactory(TextFieldTableCell.forTableColumn());
     }
 
-
-    private void onTableButtonClick(Entity selected) {
-
+    private void mouseClicked(MouseEvent e) {
+        if(e.getButton() == MouseButton.SECONDARY) {
+            menu.show( table , e.getScreenX() , e.getScreenY() );
+            menu.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    int a = 0;
+                    int i;
+                    TableView.TableViewSelectionModel<Data> selectionModel = table.getSelectionModel();
+                    i = selectionModel.getSelectedIndex();
+                    if(i != -1 || tabledatecount > 0) {
+                        ArrayList<ArrayList<String>> dateX = new ArrayList<ArrayList<String>>();
+                        ArrayList<Boolean> dateC = new ArrayList<Boolean>();
+                        for (a = 0; a < tabledatecount; a++) {
+                            ArrayList<String> dateXX = new ArrayList<String>();
+                            if (i != a) {
+                                dateC.add(data.get(a).getCheck());
+                                dateXX.add(data.get(a).getAssetcode());
+                                dateXX.add(data.get(a).getAsset());
+                                dateXX.add(data.get(a).getAdmin());
+                                dateXX.add(data.get(a).getPlace());
+                                dateXX.add(data.get(a).getNumber());
+                                dateXX.add(data.get(a).getDay());
+                                dateX.add(dateXX);
+                            }
+                        }
+                        tabledatecount = tabledatecount - 1;
+                        data.clear();
+                        for(a = 0; a < tabledatecount; a++){
+                            data.addAll(new Data(dateC.get(a), dateX.get(a).get(0), dateX.get(a).get(1), dateX.get(a).get(2), dateX.get(a).get(3), dateX.get(a).get(4), dateX.get(a).get(5)));
+                        }
+                    }
+                }
+            });
+        }else{
+            menu.hide();
+        }
     }
 
     @FXML
@@ -112,7 +155,6 @@ public class ProappController {
 
     @FXML
     public void onchange(ActionEvent e) {
-
         int count = 0;
         int i = 0;
         int j = 0;
@@ -180,8 +222,8 @@ public class ProappController {
                 ex.printStackTrace();
             }
         }
-        if(counter.get(0) != -1) {
-            for (i = 0; i < counter.size(); i++) {
+        if(tabledatecount != -1) {
+            for (i = 0; i < tabledatecount; i++) {
                 try {
                     FileWriter f = new FileWriter("data1.csv", true);
                     PrintWriter p = new PrintWriter(new BufferedWriter(f));
@@ -422,5 +464,22 @@ public class ProappController {
                 e2.printStackTrace();
             }
         }
+        tabledatecount = counter.size();
+    }
+
+    public void onteacher(ActionEvent e){
+        try{
+            showThirdWindow();
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    void showThirdWindow() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("teacher.fxml"));
+        Pane root = (Pane) loader.load();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.showAndWait();
     }
 }
