@@ -2,26 +2,29 @@ package proapp;
 
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
-import javafx.collections.*;
 import javafx.scene.control.cell.*;
-
 import java.io.*;
-
 import javafx.fxml.FXML;
-
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-
 import java.io.File;
+import java.util.Calendar;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.CheckBoxTableCell;
+
+import javax.swing.text.html.parser.Entity;
 
 public class ProappController {
 
     private static ArrayList<Integer> counter = new ArrayList<Integer>();
-    private static int CT = 0;
 
     @FXML
     private TableView table;
@@ -35,10 +38,14 @@ public class ProappController {
     private TableColumn PlaceCol;
     @FXML
     private TableColumn NumberCol;
-    private ObservableList<Data> data;
-
     @FXML
     private TableColumn checkCol;
+    @FXML
+    private TableColumn DayCol;
+    @FXML
+    private TableColumn DeleteCol;
+    @FXML
+    private ObservableList<Data> data;
 
     @FXML
     private ComboBox<String> search1;
@@ -51,6 +58,8 @@ public class ProappController {
     @FXML
     void initialize() {
 
+
+
         counter.add(-1);
 
         ObservableList<String> items1 = FXCollections.observableArrayList("資産コード", "管理者", "管理場所");
@@ -61,12 +70,14 @@ public class ProappController {
         table.itemsProperty().setValue(data);
         table.setItems(data);
 
-
+        DeleteCol.setCellFactory(new ButtonCellFactory<Entity>("削除", e -> onTableButtonClick(e)));
+        checkCol.setCellValueFactory(new PropertyValueFactory<Data, Boolean>("Check"));
         AssetcodeCol.setCellValueFactory(new PropertyValueFactory<Data, String>("Assetcode"));
         AssetCol.setCellValueFactory(new PropertyValueFactory<Data, String>("Asset"));
         AdminCol.setCellValueFactory(new PropertyValueFactory<Data, String>("Admin"));
         PlaceCol.setCellValueFactory(new PropertyValueFactory<Data, String>("Place"));
         NumberCol.setCellValueFactory(new PropertyValueFactory<Data, String>("Number"));
+        DayCol.setCellValueFactory(new PropertyValueFactory<Data, String>("Day"));
 
         table.setEditable(true);
         AssetcodeCol.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -74,6 +85,11 @@ public class ProappController {
         AdminCol.setCellFactory(TextFieldTableCell.forTableColumn());
         PlaceCol.setCellFactory(TextFieldTableCell.forTableColumn());
         NumberCol.setCellFactory(TextFieldTableCell.forTableColumn());
+    }
+
+
+    private void onTableButtonClick(Entity selected) {
+
     }
 
     @FXML
@@ -156,6 +172,8 @@ public class ProappController {
                 p.print(dates.get(i).get(3));
                 p.print(",");
                 p.print(dates.get(i).get(4));
+                p.print(",");
+                p.print(dates.get(i).get(5));
                 p.println();
                 p.close();
             } catch (IOException ex) {
@@ -176,6 +194,15 @@ public class ProappController {
                     p.print(data.get(i).getPlace());
                     p.print(",");
                     p.print(data.get(i).getNumber());
+                    p.print(",");
+                    if (data.get(0).getCheck() == true) {
+                        Calendar cal = Calendar.getInstance();
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM");
+                        String strDate = sdf.format(cal.getTime());
+                        p.print(strDate);
+                    }else{
+                        p.print(data.get(i).getDay());
+                    }
                     p.println();
                     p.close();
                 } catch (IOException ex) {
@@ -313,6 +340,7 @@ public class ProappController {
                 int colno2 = 2;
                 int colno3 = 3;
                 int colno4 = 4;
+                int colno5 = 5;
                 count++;
                 if (itemsXXX == "資産コード") {
                     String ASSETCODE = search2.getValue();
@@ -321,66 +349,66 @@ public class ProappController {
                     if(b >= a) {
                         String XXXX = data1[colno].substring(0, a);
                         if (XXXX.equals(ASSETCODE)) {
-                            data.addAll(new Data(data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4]));
+                            data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
                             counter.add(count);
                         }
                     }
                 } else if (itemsXXX == "管理者") {
                     if(itemsXX == "宇都木" && data1[colno2].equals("宇都木")){
-                        data.addAll(new Data(data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4]));
+                        data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
                         counter.add(count);
                     }else if(itemsXX == "島川" && data1[colno2].equals("島川")) {
-                        data.addAll(new Data(data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4]));
+                        data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
                         counter.add(count);
                     }else if(itemsXX == "宮田" && data1[colno2].equals("宮田")) {
-                        data.addAll(new Data(data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4]));
+                        data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
                         counter.add(count);
                     }else if(itemsXX == "山野辺" && data1[colno2].equals("山野辺")) {
-                        data.addAll(new Data(data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4]));
+                        data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
                         counter.add(count);
                     }else if(itemsXX == "佐藤" && data1[colno2].equals("佐藤")) {
-                        data.addAll(new Data(data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4]));
+                        data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
                         counter.add(count);
                     }else if(itemsXX == "大島" && data1[colno2].equals("大島")) {
-                        data.addAll(new Data(data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4]));
+                        data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
                         counter.add(count);
                     }else if(itemsXX == "川村" && data1[colno2].equals("川村")) {
-                        data.addAll(new Data(data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4]));
+                        data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
                         counter.add(count);
                     }else if(itemsXX == "須志田" && data1[colno2].equals("須志田")) {
-                        data.addAll(new Data(data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4]));
+                        data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
                         counter.add(count);
                     }else if(itemsXX == "内田" && data1[colno2].equals("内田")) {
-                        data.addAll(new Data(data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4]));
+                        data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
                         counter.add(count);
                     }
                 }else{
                     if(itemsXX == "宇都木研" && data1[colno3].equals("宇都木研")){
-                        data.addAll(new Data(data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4]));
+                        data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
                         counter.add(count);
                     }else if(itemsXX == "島川研" && data1[colno3].equals("島川研")){
-                        data.addAll(new Data(data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4]));
+                        data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
                         counter.add(count);
                     }else if(itemsXX == "宮田研" && data1[colno3].equals("宮田研")){
-                        data.addAll(new Data(data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4]));
+                        data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
                         counter.add(count);
                     }else if(itemsXX == "山野辺研" && data1[colno3].equals("山野辺研")){
-                        data.addAll(new Data(data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4]));
+                        data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
                         counter.add(count);
                     }else if(itemsXX == "佐藤研" && data1[colno3].equals("佐藤研")){
-                        data.addAll(new Data(data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4]));
+                        data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
                         counter.add(count);
                     }else if(itemsXX == "大島研" && data1[colno3].equals("大島研")){
-                        data.addAll(new Data(data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4]));
+                        data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
                         counter.add(count);
                     }else if(itemsXX == "川村研" && data1[colno3].equals("川村研")){
-                        data.addAll(new Data(data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4]));
+                        data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
                         counter.add(count);
                     }else if(itemsXX == "須志田研" && data1[colno3].equals("須志田研")){
-                        data.addAll(new Data(data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4]));
+                        data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
                         counter.add(count);
                     }else if(itemsXX == "内田研" && data1[colno3].equals("内田研")){
-                        data.addAll(new Data(data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4]));
+                        data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
                         counter.add(count);
                     }
                 }

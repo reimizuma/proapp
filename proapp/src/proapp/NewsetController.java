@@ -114,10 +114,10 @@ public class NewsetController {
         String N = Number.getText();
 
         if(A.isEmpty()){
-            A = "入力されていません";
+            A = "未入力";
         }
         if(N.isEmpty()){
-            N = "入力されていません";
+            N = "未入力";
         }
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("confirmation.fxml"));

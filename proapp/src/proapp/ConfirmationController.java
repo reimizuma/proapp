@@ -9,6 +9,8 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class ConfirmationController {
 
@@ -48,7 +50,9 @@ public class ConfirmationController {
         String AD = text3.getText();
         String P = text4.getText();
         String N = text5.getText();
-
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM");
+        String strDate = sdf.format(cal.getTime());
         try {
             FileWriter f = new FileWriter("data1.csv", true);
             PrintWriter p = new PrintWriter(new BufferedWriter(f));
@@ -62,6 +66,8 @@ public class ConfirmationController {
             p.print(P);
             p.print(",");
             p.print(N);
+            p.print(",");
+            p.print(strDate);
             p.println();
 
             p.close();
