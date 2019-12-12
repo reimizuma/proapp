@@ -37,7 +37,7 @@ public class filereader {
         BufferedReader br2 = null;
         try {
             fi2 = new FileInputStream("place.txt");
-            is2 = new InputStreamReader(fi2, "windows-31j");
+            is2 = new InputStreamReader(fi2, "UTF-8");
             br2 = new BufferedReader(is2);
             String line2;
             while ((line2 = br2.readLine()) != null) {

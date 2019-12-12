@@ -24,4 +24,24 @@ public class filewrite {
             ex.printStackTrace();
         }
     }
+
+    public static void write_place(ArrayList<String> item) {
+        try {
+            File file = new File("place.txt");
+            file.delete();
+            file.createNewFile();
+            FileWriter fw = new FileWriter("place.txt");
+            PrintWriter pw = new PrintWriter(new BufferedWriter(fw));
+            for(int i=0;i<item.size();i++){
+                if(item.get(i).isEmpty()){
+                    break;
+                }
+                pw.print(item.get(i));
+                pw.print(NEW_LINE);
+            }
+            pw.close();
+        }catch(IOException ex){
+            ex.printStackTrace();
+        }
+    }
 }

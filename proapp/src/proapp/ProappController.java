@@ -101,9 +101,10 @@ public class ProappController {
 
         table.setEditable(true);
         AssetcodeCol.setCellFactory(TextFieldTableCell.forTableColumn());
+
         AssetCol.setCellFactory(TextFieldTableCell.forTableColumn());
         AdminCol.setCellFactory(ChoiceBoxTableCell.forTableColumn(TeacherController.teacher.toArray()));
-        PlaceCol.setCellFactory(ChoiceBoxTableCell.forTableColumn(TeacherController.teacher.toArray()));
+        PlaceCol.setCellFactory(ChoiceBoxTableCell.forTableColumn(PlaceController.place.toArray()));
         NumberCol.setCellFactory(TextFieldTableCell.forTableColumn());
     }
 
@@ -314,8 +315,8 @@ public class ProappController {
                                 }
                             }
                         } else {
-                            for(l = 0; l < TeacherController.teacher.size(); l++) {
-                                if (itemsXX == TeacherController.teacher.get(l) && data1[colno3].equals(TeacherController.teacher.get(l))) {
+                            for(l = 0; l < PlaceController.place.size(); l++) {
+                                if (itemsXX == PlaceController.place.get(l) && data1[colno3].equals(PlaceController.place.get(l))) {
                                     counter.add(count);
                                 }
                             }
@@ -350,7 +351,7 @@ public class ProappController {
         search2.setEditable(false);
         checkCol.setCellFactory(CheckBoxTableCell.forTableColumn(checkCol));
         ObservableList<String> items3 = FXCollections.observableArrayList(TeacherController.teacher);
-        ObservableList<String> items4 = FXCollections.observableArrayList(TeacherController.teacher);
+        ObservableList<String> items4 = FXCollections.observableArrayList(PlaceController.place);
 
         Object itemsXX = search1.getValue();
 
@@ -418,8 +419,8 @@ public class ProappController {
                         }
                     }
                 }else{
-                    for(l = 0; l < TeacherController.teacher.size(); l++) {
-                        if (itemsXX == TeacherController.teacher.get(l) && data1[colno3].equals(TeacherController.teacher.get(l))) {
+                    for(l = 0; l < PlaceController.place.size(); l++) {
+                        if (itemsXX == PlaceController.place.get(l) && data1[colno3].equals(PlaceController.place.get(l))) {
                             data.addAll(new Data(false, data1[colno], data1[colno1], data1[3], data1[4], data1[colno4], data1[colno5]));
                             counter.add(count);
                         }
@@ -445,8 +446,21 @@ public class ProappController {
             System.out.println(ex.getMessage());
         }
         AdminCol.setCellFactory(ChoiceBoxTableCell.forTableColumn(TeacherController.teacher.toArray()));
-        PlaceCol.setCellFactory(ChoiceBoxTableCell.forTableColumn(TeacherController.teacher.toArray()));
+        ObservableList<String> items3 = FXCollections.observableArrayList(TeacherController.teacher);
+        search2.setItems(items3);
     }
+
+    public void onplace(ActionEvent e){
+        try{
+            showSixWindow();
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        PlaceCol.setCellFactory(ChoiceBoxTableCell.forTableColumn(PlaceController.place.toArray()));
+        ObservableList<String> items4 = FXCollections.observableArrayList(PlaceController.place);
+        search2.setItems(items4);
+    }
+
     void showThirdWindow() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("teacher.fxml"));
         Pane root = (Pane) loader.load();
@@ -465,6 +479,14 @@ public class ProappController {
     }
     void showFifthWindow() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("err2.fxml"));
+        Pane root = (Pane) loader.load();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.showAndWait();
+    }
+    void showSixWindow() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Place.fxml"));
         Pane root = (Pane) loader.load();
         Scene scene = new Scene(root);
         Stage stage = new Stage();
