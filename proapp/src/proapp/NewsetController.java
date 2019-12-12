@@ -47,8 +47,8 @@ public class NewsetController {
         Place.setFocusTraversable(false);
         Number.setPromptText("入力されていません"); //未入力テキスト
         Number.setFocusTraversable(false);
-        ObservableList<String> items1 = FXCollections.observableArrayList("宇都木", "島川", "川村");
-        ObservableList<String> items2 = FXCollections.observableArrayList("宇都木研", "島川研", "川村研");
+        ObservableList<String> items1 = FXCollections.observableArrayList("宇都木", "島川", "宮田", "川村", "内田", "山野辺", "大島", "須志田", "佐藤");
+        ObservableList<String> items2 = FXCollections.observableArrayList("宇都木研", "島川研", "宮田研", "川村研", "内田研", "山野辺研", "大島研", "須志田研", "佐藤研");
         Admin.setItems(items1);
         Place.setItems(items2);
     }

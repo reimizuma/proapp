@@ -60,6 +60,15 @@ public class ProappController {
 
     public MenuItem[] menui = new MenuItem[1];
 
+    public int isNumber(String num) {
+        try {
+            Integer.parseInt(num);
+            return 1;
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
+
     @FXML
     void initialize() {
         table.setOnMouseClicked(this::mouseClicked);
@@ -88,11 +97,12 @@ public class ProappController {
         NumberCol.setCellValueFactory(new PropertyValueFactory<Data, String>("Number"));
         DayCol.setCellValueFactory(new PropertyValueFactory<Data, String>("Day"));
 
+
         table.setEditable(true);
         AssetcodeCol.setCellFactory(TextFieldTableCell.forTableColumn());
         AssetCol.setCellFactory(TextFieldTableCell.forTableColumn());
-        AdminCol.setCellFactory(TextFieldTableCell.forTableColumn());
-        PlaceCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        AdminCol.setCellFactory(ChoiceBoxTableCell.forTableColumn("宇都木", "島川", "宮田", "川村", "内田", "山野辺", "大島", "須志田", "佐藤"));
+        PlaceCol.setCellFactory(ChoiceBoxTableCell.forTableColumn("宇都木研", "島川研", "宮田研", "川村研", "内田研", "山野辺研", "大島研", "須志田研", "佐藤研"));
         NumberCol.setCellFactory(TextFieldTableCell.forTableColumn());
     }
 
@@ -155,108 +165,26 @@ public class ProappController {
 
     @FXML
     public void onchange(ActionEvent e) {
-        int count = 0;
-        int i = 0;
-        int j = 0;
-
-        ArrayList<ArrayList<String>> dates = new ArrayList<ArrayList<String>>();
-
-        FileInputStream fi = null;
-        InputStreamReader is = null;
-        BufferedReader br = null;
-        try {
-            //読み込みファイルのインスタンス生成
-            //ファイル名を指定する
-            fi = new FileInputStream("data1.csv");
-            is = new InputStreamReader(fi, "UTF-8");
-            br = new BufferedReader(is);
-            //読み込み行
-            String line;
-            //1行ずつ読み込みを行う
-            while ((line = br.readLine()) != null) {
-                ArrayList<String> date2 = new ArrayList<String>();
-                //カンマで分割した内容を配列に格納する
-                String[] data1 = line.split(",");
-                //配列の中身を順位表示する。列数(=列名を格納した配列の要素数)分繰り返す
-                for(j = 0; j < data1.length; j++){
-                    date2.add(data1[j]);
-                }
-                count++;
-                    if (count != counter.get(i)) {
-                        dates.add(date2);
-                    } else if(counter.size() - 1 >= i + 1){
-                        i++;
-                    }
-            }
-        } catch (Exception e1) {
-            e1.printStackTrace();
-        } finally {
-            try {
-                br.close();
-            } catch (Exception e2) {
-                e2.printStackTrace();
-            }
-        }
-
-        File file = new File("data1.csv");
-        file.delete();
-
-        for(i = 0; i < dates.size(); i++) {
-            try {
-                FileWriter f = new FileWriter("data1.csv", true);
-                PrintWriter p = new PrintWriter(new BufferedWriter(f));
-                p.print(dates.get(i).get(0));
-                p.print(",");
-                p.print(dates.get(i).get(1));
-                p.print(",");
-                p.print(dates.get(i).get(2));
-                p.print(",");
-                p.print(dates.get(i).get(3));
-                p.print(",");
-                p.print(dates.get(i).get(4));
-                p.print(",");
-                p.print(dates.get(i).get(5));
-                p.println();
-                p.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
-        if(tabledatecount != -1) {
-            for (i = 0; i < tabledatecount; i++) {
-                try {
-                    FileWriter f = new FileWriter("data1.csv", true);
-                    PrintWriter p = new PrintWriter(new BufferedWriter(f));
-                    p.print(data.get(i).getAssetcode());
-                    p.print(",");
-                    p.print(data.get(i).getAsset());
-                    p.print(",");
-                    p.print(data.get(i).getAdmin());
-                    p.print(",");
-                    p.print(data.get(i).getPlace());
-                    p.print(",");
-                    p.print(data.get(i).getNumber());
-                    p.print(",");
-                    if (data.get(0).getCheck() == true) {
-                        Calendar cal = Calendar.getInstance();
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM");
-                        String strDate = sdf.format(cal.getTime());
-                        p.print(strDate);
-                    }else{
-                        p.print(data.get(i).getDay());
-                    }
-                    p.println();
-                    p.close();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
+        int check = 0;
+        int errCount = 0;
+        for(check = 0; check < tabledatecount; check++){
+            if(data.get(check).getNumber().equals("未入力")) {
+            }else{
+                if (isNumber(data.get(check).getNumber()) != 1) {
+                    errCount++;
                 }
             }
         }
-        if(counter.get(0) != -1) {
-            count = 0;
-            counter.clear();
-            Object itemsXXX = search1.getValue();
-            Object itemsXX = search2.getValue();
+        if(errCount == 0) {
+            int count = 0;
+            int i = 0;
+            int j = 0;
+
+            ArrayList<ArrayList<String>> dates = new ArrayList<ArrayList<String>>();
+
+            FileInputStream fi = null;
+            InputStreamReader is = null;
+            BufferedReader br = null;
             try {
                 //読み込みファイルのインスタンス生成
                 //ファイル名を指定する
@@ -267,58 +195,18 @@ public class ProappController {
                 String line;
                 //1行ずつ読み込みを行う
                 while ((line = br.readLine()) != null) {
+                    ArrayList<String> date2 = new ArrayList<String>();
                     //カンマで分割した内容を配列に格納する
                     String[] data1 = line.split(",");
                     //配列の中身を順位表示する。列数(=列名を格納した配列の要素数)分繰り返す
-                    int colno = 0;
-                    int colno2 = 2;
-                    int colno3 = 3;
+                    for (j = 0; j < data1.length; j++) {
+                        date2.add(data1[j]);
+                    }
                     count++;
-                    if (itemsXXX == "資産コード") {
-                        Object ASSETCODE = search2.getValue();
-                        if (data1[colno].equals(ASSETCODE)) {
-                            counter.add(count);
-                        }
-                    } else if (itemsXXX == "管理者") {
-                        if (itemsXX == "宇都木" && data1[colno2].equals("宇都木")) {
-                            counter.add(count);
-                        } else if (itemsXX == "島川" && data1[colno2].equals("島川")) {
-                            counter.add(count);
-                        } else if (itemsXX == "宮田" && data1[colno2].equals("宮田")) {
-                            counter.add(count);
-                        } else if (itemsXX == "山野辺" && data1[colno2].equals("山野辺")) {
-                            counter.add(count);
-                        } else if (itemsXX == "佐藤" && data1[colno2].equals("佐藤")) {
-                            counter.add(count);
-                        } else if (itemsXX == "大島" && data1[colno2].equals("大島")) {
-                            counter.add(count);
-                        } else if (itemsXX == "川村" && data1[colno2].equals("川村")) {
-                            counter.add(count);
-                        } else if (itemsXX == "須志田" && data1[colno2].equals("須志田")) {
-                            counter.add(count);
-                        } else if (itemsXX == "内田" && data1[colno2].equals("内田")) {
-                            counter.add(count);
-                        }
-                    } else {
-                        if (itemsXX == "宇都木研" && data1[colno3].equals("宇都木研")) {
-                            counter.add(count);
-                        } else if (itemsXX == "島川研" && data1[colno3].equals("島川研")) {
-                            counter.add(count);
-                        } else if (itemsXX == "宮田研" && data1[colno3].equals("宮田研")) {
-                            counter.add(count);
-                        } else if (itemsXX == "山野辺研" && data1[colno3].equals("山野辺研")) {
-                            counter.add(count);
-                        } else if (itemsXX == "佐藤研" && data1[colno3].equals("佐藤研")) {
-                            counter.add(count);
-                        } else if (itemsXX == "大島研" && data1[colno3].equals("大島研")) {
-                            counter.add(count);
-                        } else if (itemsXX == "川村研" && data1[colno3].equals("川村研")) {
-                            counter.add(count);
-                        } else if (itemsXX == "須志田研" && data1[colno3].equals("須志田研")) {
-                            counter.add(count);
-                        } else if (itemsXX == "内田研" && data1[colno3].equals("内田研")) {
-                            counter.add(count);
-                        }
+                    if (count != counter.get(i)) {
+                        dates.add(date2);
+                    } else if (counter.size() - 1 >= i + 1) {
+                        i++;
                     }
                 }
             } catch (Exception e1) {
@@ -329,6 +217,156 @@ public class ProappController {
                 } catch (Exception e2) {
                     e2.printStackTrace();
                 }
+            }
+
+            File file = new File("data1.csv");
+            file.delete();
+
+            for (i = 0; i < dates.size(); i++) {
+                try {
+                    FileWriter f = new FileWriter("data1.csv", true);
+                    PrintWriter p = new PrintWriter(new BufferedWriter(f));
+                    p.print(dates.get(i).get(0));
+                    p.print(",");
+                    p.print(dates.get(i).get(1));
+                    p.print(",");
+                    p.print(dates.get(i).get(2));
+                    p.print(",");
+                    p.print(dates.get(i).get(3));
+                    p.print(",");
+                    p.print(dates.get(i).get(4));
+                    p.print(",");
+                    p.print(dates.get(i).get(5));
+                    p.println();
+                    p.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            if (tabledatecount != -1) {
+                for (i = 0; i < tabledatecount; i++) {
+                    try {
+                        FileWriter f = new FileWriter("data1.csv", true);
+                        PrintWriter p = new PrintWriter(new BufferedWriter(f));
+                        p.print(data.get(i).getAssetcode());
+                        p.print(",");
+                        p.print(data.get(i).getAsset());
+                        p.print(",");
+                        p.print(data.get(i).getAdmin());
+                        p.print(",");
+                        p.print(data.get(i).getPlace());
+                        p.print(",");
+                        p.print(data.get(i).getNumber());
+                        p.print(",");
+                        if (data.get(0).getCheck() == true) {
+                            Calendar cal = Calendar.getInstance();
+                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM");
+                            String strDate = sdf.format(cal.getTime());
+                            p.print(strDate);
+                        } else {
+                            p.print(data.get(i).getDay());
+                        }
+                        p.println();
+                        p.close();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+            if (counter.get(0) != -1) {
+                count = 0;
+                counter.clear();
+                Object itemsXXX = search1.getValue();
+                Object itemsXX = search2.getValue();
+                try {
+                    //読み込みファイルのインスタンス生成
+                    //ファイル名を指定する
+                    fi = new FileInputStream("data1.csv");
+                    is = new InputStreamReader(fi, "UTF-8");
+                    br = new BufferedReader(is);
+                    //読み込み行
+                    String line;
+                    //1行ずつ読み込みを行う
+                    while ((line = br.readLine()) != null) {
+                        //カンマで分割した内容を配列に格納する
+                        String[] data1 = line.split(",");
+                        //配列の中身を順位表示する。列数(=列名を格納した配列の要素数)分繰り返す
+                        int colno = 0;
+                        int colno2 = 2;
+                        int colno3 = 3;
+                        count++;
+                        if (itemsXXX == "資産コード") {
+                            String ASSETCODE = search2.getValue();
+                            int a = ASSETCODE.length();
+                            int b = data1[colno].length();
+                            if(b >= a) {
+                                String XXXX = data1[colno].substring(0, a);
+                                if (XXXX.equals(ASSETCODE)) {
+                                    counter.add(count);
+                                }
+                            }
+                        } else if (itemsXXX == "管理者") {
+                            if (itemsXX == "宇都木" && data1[colno2].equals("宇都木")) {
+                                counter.add(count);
+                            } else if (itemsXX == "島川" && data1[colno2].equals("島川")) {
+                                counter.add(count);
+                            } else if (itemsXX == "宮田" && data1[colno2].equals("宮田")) {
+                                counter.add(count);
+                            } else if (itemsXX == "山野辺" && data1[colno2].equals("山野辺")) {
+                                counter.add(count);
+                            } else if (itemsXX == "佐藤" && data1[colno2].equals("佐藤")) {
+                                counter.add(count);
+                            } else if (itemsXX == "大島" && data1[colno2].equals("大島")) {
+                                counter.add(count);
+                            } else if (itemsXX == "川村" && data1[colno2].equals("川村")) {
+                                counter.add(count);
+                            } else if (itemsXX == "須志田" && data1[colno2].equals("須志田")) {
+                                counter.add(count);
+                            } else if (itemsXX == "内田" && data1[colno2].equals("内田")) {
+                                counter.add(count);
+                            }
+                        } else {
+                            if (itemsXX == "宇都木研" && data1[colno3].equals("宇都木研")) {
+                                counter.add(count);
+                            } else if (itemsXX == "島川研" && data1[colno3].equals("島川研")) {
+                                counter.add(count);
+                            } else if (itemsXX == "宮田研" && data1[colno3].equals("宮田研")) {
+                                counter.add(count);
+                            } else if (itemsXX == "山野辺研" && data1[colno3].equals("山野辺研")) {
+                                counter.add(count);
+                            } else if (itemsXX == "佐藤研" && data1[colno3].equals("佐藤研")) {
+                                counter.add(count);
+                            } else if (itemsXX == "大島研" && data1[colno3].equals("大島研")) {
+                                counter.add(count);
+                            } else if (itemsXX == "川村研" && data1[colno3].equals("川村研")) {
+                                counter.add(count);
+                            } else if (itemsXX == "須志田研" && data1[colno3].equals("須志田研")) {
+                                counter.add(count);
+                            } else if (itemsXX == "内田研" && data1[colno3].equals("内田研")) {
+                                counter.add(count);
+                            }
+                        }
+                    }
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                } finally {
+                    try {
+                        br.close();
+                    } catch (Exception e2) {
+                        e2.printStackTrace();
+                    }
+                }
+            }
+            try {
+                showFourthWindow();
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+        }else{
+            try {
+                showFifthWindow();
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
             }
         }
     }
@@ -386,13 +424,15 @@ public class ProappController {
                 count++;
                 if (itemsXXX == "資産コード") {
                     String ASSETCODE = search2.getValue();
-                    int a = ASSETCODE.length();
-                    int b = data1[colno].length();
-                    if(b >= a) {
-                        String XXXX = data1[colno].substring(0, a);
-                        if (XXXX.equals(ASSETCODE)) {
-                            data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
-                            counter.add(count);
+                    if(ASSETCODE != null){
+                        int a = ASSETCODE.length();
+                        int b = data1[colno].length();
+                        if (b >= a) {
+                            String XXXX = data1[colno].substring(0, a);
+                            if (XXXX.equals(ASSETCODE)) {
+                                data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
+                                counter.add(count);
+                            }
                         }
                     }
                 } else if (itemsXXX == "管理者") {
@@ -476,6 +516,22 @@ public class ProappController {
     }
     void showThirdWindow() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("teacher.fxml"));
+        Pane root = (Pane) loader.load();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.showAndWait();
+    }
+    void showFourthWindow() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("changeclear.fxml"));
+        Pane root = (Pane) loader.load();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.showAndWait();
+    }
+    void showFifthWindow() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("err2.fxml"));
         Pane root = (Pane) loader.load();
         Scene scene = new Scene(root);
         Stage stage = new Stage();

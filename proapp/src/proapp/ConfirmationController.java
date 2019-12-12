@@ -2,8 +2,12 @@ package proapp;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -75,5 +79,19 @@ public class ConfirmationController {
             ex.printStackTrace();
         }
         hai.getScene().getWindow().hide();
+        try {
+            showSecondWindow();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    void showSecondWindow() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("setclear.fxml"));
+        Pane root = (Pane) loader.load();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.showAndWait();
     }
 }

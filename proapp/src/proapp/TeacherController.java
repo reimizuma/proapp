@@ -55,7 +55,7 @@ public class TeacherController {
     @FXML
     private void OnaddClick(MouseEvent e)  {
         try {
-            showSecondWindow();
+            showFifthWindow();
         }catch (Exception ex){
             System.out.println(ex.getMessage());
         }
@@ -67,7 +67,7 @@ public class TeacherController {
         list.setItems(lm);
     }
 
-    void showSecondWindow() throws IOException {
+    void showFifthWindow() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("add.fxml"));
         Pane root = (Pane) loader.load();
         Scene scene = new Scene(root);
