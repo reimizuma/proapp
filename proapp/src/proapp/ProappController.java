@@ -22,6 +22,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.input.MouseEvent;
+import java.lang.String;
 
 public class ProappController {
 
@@ -101,8 +102,8 @@ public class ProappController {
         table.setEditable(true);
         AssetcodeCol.setCellFactory(TextFieldTableCell.forTableColumn());
         AssetCol.setCellFactory(TextFieldTableCell.forTableColumn());
-        AdminCol.setCellFactory(ChoiceBoxTableCell.forTableColumn("宇都木", "島川", "宮田", "川村", "内田", "山野辺", "大島", "須志田", "佐藤"));
-        PlaceCol.setCellFactory(ChoiceBoxTableCell.forTableColumn("宇都木研", "島川研", "宮田研", "川村研", "内田研", "山野辺研", "大島研", "須志田研", "佐藤研"));
+        AdminCol.setCellFactory(ChoiceBoxTableCell.forTableColumn(TeacherController.teacher.toArray()));
+        PlaceCol.setCellFactory(ChoiceBoxTableCell.forTableColumn(TeacherController.teacher.toArray()));
         NumberCol.setCellFactory(TextFieldTableCell.forTableColumn());
     }
 
@@ -166,6 +167,7 @@ public class ProappController {
     @FXML
     public void onchange(ActionEvent e) {
         int check = 0;
+        int l = 0;
         int errCount = 0;
         for(check = 0; check < tabledatecount; check++){
             if(data.get(check).getNumber().equals("未入力")) {
@@ -306,44 +308,16 @@ public class ProappController {
                                 }
                             }
                         } else if (itemsXXX == "管理者") {
-                            if (itemsXX == "宇都木" && data1[colno2].equals("宇都木")) {
-                                counter.add(count);
-                            } else if (itemsXX == "島川" && data1[colno2].equals("島川")) {
-                                counter.add(count);
-                            } else if (itemsXX == "宮田" && data1[colno2].equals("宮田")) {
-                                counter.add(count);
-                            } else if (itemsXX == "山野辺" && data1[colno2].equals("山野辺")) {
-                                counter.add(count);
-                            } else if (itemsXX == "佐藤" && data1[colno2].equals("佐藤")) {
-                                counter.add(count);
-                            } else if (itemsXX == "大島" && data1[colno2].equals("大島")) {
-                                counter.add(count);
-                            } else if (itemsXX == "川村" && data1[colno2].equals("川村")) {
-                                counter.add(count);
-                            } else if (itemsXX == "須志田" && data1[colno2].equals("須志田")) {
-                                counter.add(count);
-                            } else if (itemsXX == "内田" && data1[colno2].equals("内田")) {
-                                counter.add(count);
+                            for(l = 0; l < TeacherController.teacher.size(); l++) {
+                                if (itemsXX == TeacherController.teacher.get(l) && data1[colno2].equals(TeacherController.teacher.get(l))) {
+                                    counter.add(count);
+                                }
                             }
                         } else {
-                            if (itemsXX == "宇都木研" && data1[colno3].equals("宇都木研")) {
-                                counter.add(count);
-                            } else if (itemsXX == "島川研" && data1[colno3].equals("島川研")) {
-                                counter.add(count);
-                            } else if (itemsXX == "宮田研" && data1[colno3].equals("宮田研")) {
-                                counter.add(count);
-                            } else if (itemsXX == "山野辺研" && data1[colno3].equals("山野辺研")) {
-                                counter.add(count);
-                            } else if (itemsXX == "佐藤研" && data1[colno3].equals("佐藤研")) {
-                                counter.add(count);
-                            } else if (itemsXX == "大島研" && data1[colno3].equals("大島研")) {
-                                counter.add(count);
-                            } else if (itemsXX == "川村研" && data1[colno3].equals("川村研")) {
-                                counter.add(count);
-                            } else if (itemsXX == "須志田研" && data1[colno3].equals("須志田研")) {
-                                counter.add(count);
-                            } else if (itemsXX == "内田研" && data1[colno3].equals("内田研")) {
-                                counter.add(count);
+                            for(l = 0; l < TeacherController.teacher.size(); l++) {
+                                if (itemsXX == TeacherController.teacher.get(l) && data1[colno3].equals(TeacherController.teacher.get(l))) {
+                                    counter.add(count);
+                                }
                             }
                         }
                     }
@@ -375,8 +349,8 @@ public class ProappController {
     public void selecter1(ActionEvent e) {
         search2.setEditable(false);
         checkCol.setCellFactory(CheckBoxTableCell.forTableColumn(checkCol));
-        ObservableList<String> items3 = FXCollections.observableArrayList("宇都木", "島川", "宮田", "川村", "内田", "山野辺", "大島", "須志田", "佐藤");
-        ObservableList<String> items4 = FXCollections.observableArrayList("宇都木研", "島川研", "宮田研", "川村研", "内田研", "山野辺研", "大島研", "須志田研", "佐藤研");
+        ObservableList<String> items3 = FXCollections.observableArrayList(TeacherController.teacher);
+        ObservableList<String> items4 = FXCollections.observableArrayList(TeacherController.teacher);
 
         Object itemsXX = search1.getValue();
 
@@ -397,6 +371,7 @@ public class ProappController {
         data.clear();
         counter.clear();
         count = 0;
+        int l;
         Object itemsXXX = search1.getValue();
         Object itemsXX = search2.getValue();
         FileInputStream fi = null;
@@ -436,62 +411,18 @@ public class ProappController {
                         }
                     }
                 } else if (itemsXXX == "管理者") {
-                    if(itemsXX == "宇都木" && data1[colno2].equals("宇都木")){
-                        data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
-                        counter.add(count);
-                    }else if(itemsXX == "島川" && data1[colno2].equals("島川")) {
-                        data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
-                        counter.add(count);
-                    }else if(itemsXX == "宮田" && data1[colno2].equals("宮田")) {
-                        data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
-                        counter.add(count);
-                    }else if(itemsXX == "山野辺" && data1[colno2].equals("山野辺")) {
-                        data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
-                        counter.add(count);
-                    }else if(itemsXX == "佐藤" && data1[colno2].equals("佐藤")) {
-                        data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
-                        counter.add(count);
-                    }else if(itemsXX == "大島" && data1[colno2].equals("大島")) {
-                        data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
-                        counter.add(count);
-                    }else if(itemsXX == "川村" && data1[colno2].equals("川村")) {
-                        data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
-                        counter.add(count);
-                    }else if(itemsXX == "須志田" && data1[colno2].equals("須志田")) {
-                        data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
-                        counter.add(count);
-                    }else if(itemsXX == "内田" && data1[colno2].equals("内田")) {
-                        data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
-                        counter.add(count);
+                    for(l = 0; l < TeacherController.teacher.size(); l++) {
+                        if (itemsXX == TeacherController.teacher.get(l) && data1[colno2].equals(TeacherController.teacher.get(l))) {
+                            data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
+                            counter.add(count);
+                        }
                     }
                 }else{
-                    if(itemsXX == "宇都木研" && data1[colno3].equals("宇都木研")){
-                        data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
-                        counter.add(count);
-                    }else if(itemsXX == "島川研" && data1[colno3].equals("島川研")){
-                        data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
-                        counter.add(count);
-                    }else if(itemsXX == "宮田研" && data1[colno3].equals("宮田研")){
-                        data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
-                        counter.add(count);
-                    }else if(itemsXX == "山野辺研" && data1[colno3].equals("山野辺研")){
-                        data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
-                        counter.add(count);
-                    }else if(itemsXX == "佐藤研" && data1[colno3].equals("佐藤研")){
-                        data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
-                        counter.add(count);
-                    }else if(itemsXX == "大島研" && data1[colno3].equals("大島研")){
-                        data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
-                        counter.add(count);
-                    }else if(itemsXX == "川村研" && data1[colno3].equals("川村研")){
-                        data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
-                        counter.add(count);
-                    }else if(itemsXX == "須志田研" && data1[colno3].equals("須志田研")){
-                        data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
-                        counter.add(count);
-                    }else if(itemsXX == "内田研" && data1[colno3].equals("内田研")){
-                        data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
-                        counter.add(count);
+                    for(l = 0; l < TeacherController.teacher.size(); l++) {
+                        if (itemsXX == TeacherController.teacher.get(l) && data1[colno3].equals(TeacherController.teacher.get(l))) {
+                            data.addAll(new Data(false, data1[colno], data1[colno1], data1[3], data1[4], data1[colno4], data1[colno5]));
+                            counter.add(count);
+                        }
                     }
                 }
             }
@@ -513,6 +444,8 @@ public class ProappController {
         }catch(Exception ex){
             System.out.println(ex.getMessage());
         }
+        AdminCol.setCellFactory(ChoiceBoxTableCell.forTableColumn(TeacherController.teacher.toArray()));
+        PlaceCol.setCellFactory(ChoiceBoxTableCell.forTableColumn(TeacherController.teacher.toArray()));
     }
     void showThirdWindow() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("teacher.fxml"));
