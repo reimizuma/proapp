@@ -1,8 +1,5 @@
 package proapp;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
 import java.io.*;
 import java.util.ArrayList;
 
@@ -17,7 +14,7 @@ public class filereader {
         try {
 
             fi = new FileInputStream("teacher.txt");
-            is = new InputStreamReader(fi, "windows-31j");
+            is = new InputStreamReader(fi, "UTF-8");
             br = new BufferedReader(is);
             String line;
             while ((line = br.readLine()) != null) {
@@ -56,3 +53,4 @@ public class filereader {
         return items4;
     }
 }
+
