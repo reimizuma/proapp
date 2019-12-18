@@ -47,6 +47,7 @@ public class PlaceController {
             System.out.println(ex.getMessage());
         }
         if(checkController.check.equals("true")){
+            checkController.check = "false";
             place.remove(s);
             filewrite.write_place(place);
             ObservableList<String> lm = FXCollections.observableArrayList(place);

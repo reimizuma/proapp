@@ -114,30 +114,38 @@ public class ProappController {
             menu.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    int a = 0;
-                    int i;
-                    TableView.TableViewSelectionModel<Data> selectionModel = table.getSelectionModel();
-                    i = selectionModel.getSelectedIndex();
-                    if(i != -1 || tabledatecount > 0) {
-                        ArrayList<ArrayList<String>> dateX = new ArrayList<ArrayList<String>>();
-                        ArrayList<Boolean> dateC = new ArrayList<Boolean>();
-                        for (a = 0; a < tabledatecount; a++) {
-                            ArrayList<String> dateXX = new ArrayList<String>();
-                            if (i != a) {
-                                dateC.add(data.get(a).getCheck());
-                                dateXX.add(data.get(a).getAssetcode());
-                                dateXX.add(data.get(a).getAsset());
-                                dateXX.add(data.get(a).getAdmin());
-                                dateXX.add(data.get(a).getPlace());
-                                dateXX.add(data.get(a).getNumber());
-                                dateXX.add(data.get(a).getDay());
-                                dateX.add(dateXX);
+                    try {
+                        ShowSevensWindow();
+                    } catch (Exception ex) {
+                        System.out.println(ex.getMessage());
+                    }
+                    if (checkController.check.equals("true")) {
+                        checkController.check = "false";
+                        int a = 0;
+                        int i;
+                        TableView.TableViewSelectionModel<Data> selectionModel = table.getSelectionModel();
+                        i = selectionModel.getSelectedIndex();
+                        if (i != -1 || tabledatecount > 0) {
+                            ArrayList<ArrayList<String>> dateX = new ArrayList<ArrayList<String>>();
+                            ArrayList<Boolean> dateC = new ArrayList<Boolean>();
+                            for (a = 0; a < tabledatecount; a++) {
+                                ArrayList<String> dateXX = new ArrayList<String>();
+                                if (i != a) {
+                                    dateC.add(data.get(a).getCheck());
+                                    dateXX.add(data.get(a).getAssetcode());
+                                    dateXX.add(data.get(a).getAsset());
+                                    dateXX.add(data.get(a).getAdmin());
+                                    dateXX.add(data.get(a).getPlace());
+                                    dateXX.add(data.get(a).getNumber());
+                                    dateXX.add(data.get(a).getDay());
+                                    dateX.add(dateXX);
+                                }
                             }
-                        }
-                        tabledatecount = tabledatecount - 1;
-                        data.clear();
-                        for(a = 0; a < tabledatecount; a++){
-                            data.addAll(new Data(dateC.get(a), dateX.get(a).get(0), dateX.get(a).get(1), dateX.get(a).get(2), dateX.get(a).get(3), dateX.get(a).get(4), dateX.get(a).get(5)));
+                            tabledatecount = tabledatecount - 1;
+                            data.clear();
+                            for (a = 0; a < tabledatecount; a++) {
+                                data.addAll(new Data(dateC.get(a), dateX.get(a).get(0), dateX.get(a).get(1), dateX.get(a).get(2), dateX.get(a).get(3), dateX.get(a).get(4), dateX.get(a).get(5)));
+                            }
                         }
                     }
                 }
@@ -487,6 +495,14 @@ public class ProappController {
     }
     void showSixWindow() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Place.fxml"));
+        Pane root = (Pane) loader.load();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.showAndWait();
+    }
+    void ShowSevensWindow() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("check.fxml"));
         Pane root = (Pane) loader.load();
         Scene scene = new Scene(root);
         Stage stage = new Stage();

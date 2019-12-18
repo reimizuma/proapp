@@ -46,6 +46,7 @@ public class TeacherController {
             System.out.println(ex.getMessage());
         }
         if(checkController.check.equals("true")){
+            checkController.check = "false";
             teacher.remove(s);
             filewrite.write_teacher(teacher);
             ObservableList<String> lm = FXCollections.observableArrayList(teacher);
