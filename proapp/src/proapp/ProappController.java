@@ -360,10 +360,12 @@ public class ProappController {
         checkCol.setCellFactory(CheckBoxTableCell.forTableColumn(checkCol));
         ObservableList<String> items3 = FXCollections.observableArrayList(TeacherController.teacher);
         ObservableList<String> items4 = FXCollections.observableArrayList(PlaceController.place);
+        ObservableList<String> items2 = FXCollections.observableArrayList("");
 
         Object itemsXX = search1.getValue();
 
         if (itemsXX == "資産コード") {
+            search2.setItems(items2);
             search2.getItems().clear();
             search2.setEditable(true);
         } else if (itemsXX == "管理者") {
@@ -377,74 +379,81 @@ public class ProappController {
 
     @FXML
     public void selecter2(ActionEvent e) {
-        data.clear();
-        counter.clear();
-        count = 0;
-        int l;
-        Object itemsXXX = search1.getValue();
-        Object itemsXX = search2.getValue();
-        FileInputStream fi = null;
-        InputStreamReader is = null;
-        BufferedReader br = null;
-        try {
-            //読み込みファイルのインスタンス生成
-            //ファイル名を指定する
-            fi = new FileInputStream("data1.csv");
-            is = new InputStreamReader(fi,"UTF-8");
-            br = new BufferedReader(is);
-            //読み込み行
-            String line;
-            //1行ずつ読み込みを行う
-            while ((line = br.readLine()) != null) {
-                //カンマで分割した内容を配列に格納する
-                String[] data1 = line.split(",");
-                //配列の中身を順位表示する。列数(=列名を格納した配列の要素数)分繰り返す
-                int colno = 0;
-                int colno1 = 1;
-                int colno2 = 2;
-                int colno3 = 3;
-                int colno4 = 4;
-                int colno5 = 5;
-                count++;
-                if (itemsXXX == "資産コード") {
-                    String ASSETCODE = search2.getValue();
-                    if(ASSETCODE != null){
-                        int a = ASSETCODE.length();
-                        int b = data1[colno].length();
-                        if (b >= a) {
-                            String XXXX = data1[colno].substring(0, a);
-                            if (XXXX.equals(ASSETCODE)) {
+        String N = search2.getValue();
+        if (N == null) {
+
+        } else if(N.isEmpty()) {
+
+        } else {
+            data.clear();
+            counter.clear();
+            count = 0;
+            int l;
+            Object itemsXXX = search1.getValue();
+            Object itemsXX = search2.getValue();
+            FileInputStream fi = null;
+            InputStreamReader is = null;
+            BufferedReader br = null;
+            try {
+                //読み込みファイルのインスタンス生成
+                //ファイル名を指定する
+                fi = new FileInputStream("data1.csv");
+                is = new InputStreamReader(fi, "UTF-8");
+                br = new BufferedReader(is);
+                //読み込み行
+                String line;
+                //1行ずつ読み込みを行う
+                while ((line = br.readLine()) != null) {
+                    //カンマで分割した内容を配列に格納する
+                    String[] data1 = line.split(",");
+                    //配列の中身を順位表示する。列数(=列名を格納した配列の要素数)分繰り返す
+                    int colno = 0;
+                    int colno1 = 1;
+                    int colno2 = 2;
+                    int colno3 = 3;
+                    int colno4 = 4;
+                    int colno5 = 5;
+                    count++;
+                    if (itemsXXX == "資産コード") {
+                        String ASSETCODE = search2.getValue();
+                        if (ASSETCODE != null) {
+                            int a = ASSETCODE.length();
+                            int b = data1[colno].length();
+                            if (b >= a) {
+                                String XXXX = data1[colno].substring(0, a);
+                                if (XXXX.equals(ASSETCODE)) {
+                                    data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
+                                    counter.add(count);
+                                }
+                            }
+                        }
+                    } else if (itemsXXX == "管理者") {
+                        for (l = 0; l < TeacherController.teacher.size(); l++) {
+                            if (itemsXX == TeacherController.teacher.get(l) && data1[colno2].equals(TeacherController.teacher.get(l))) {
                                 data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
                                 counter.add(count);
                             }
                         }
-                    }
-                } else if (itemsXXX == "管理者") {
-                    for(l = 0; l < TeacherController.teacher.size(); l++) {
-                        if (itemsXX == TeacherController.teacher.get(l) && data1[colno2].equals(TeacherController.teacher.get(l))) {
-                            data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
-                            counter.add(count);
-                        }
-                    }
-                }else{
-                    for(l = 0; l < PlaceController.place.size(); l++) {
-                        if (itemsXX == PlaceController.place.get(l) && data1[colno3].equals(PlaceController.place.get(l))) {
-                            data.addAll(new Data(false, data1[colno], data1[colno1], data1[3], data1[4], data1[colno4], data1[colno5]));
-                            counter.add(count);
+                    } else {
+                        for (l = 0; l < PlaceController.place.size(); l++) {
+                            if (itemsXX == PlaceController.place.get(l) && data1[colno3].equals(PlaceController.place.get(l))) {
+                                data.addAll(new Data(false, data1[colno], data1[colno1], data1[3], data1[4], data1[colno4], data1[colno5]));
+                                counter.add(count);
+                            }
                         }
                     }
                 }
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            } finally {
+                try {
+                    br.close();
+                } catch (Exception e2) {
+                    e2.printStackTrace();
+                }
             }
-        } catch (Exception e1) {
-            e1.printStackTrace();
-        } finally {
-            try {
-                br.close();
-            } catch (Exception e2) {
-                e2.printStackTrace();
-            }
+            tabledatecount = counter.size();
         }
-        tabledatecount = counter.size();
     }
 
     public void onteacher(ActionEvent e){
