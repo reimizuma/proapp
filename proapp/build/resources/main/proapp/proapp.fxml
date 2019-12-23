@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proapp.ProappController">
+   <children>
+      <TableView fx:id="table" layoutX="14.0" layoutY="76.0" prefHeight="310.0" prefWidth="572.0">
+         <columns>
+            <TableColumn fx:id="checkCol" minWidth="9.0" prefWidth="30.0" text="確認" />
+            <TableColumn fx:id="AssetcodeCol" prefWidth="173.0" text="資産コード" />
+            <TableColumn fx:id="AssetCol" minWidth="0.0" prefWidth="87.0" text="資産名" />
+            <TableColumn fx:id="AdminCol" minWidth="0.0" prefWidth="68.0" text="管理者" />
+            <TableColumn fx:id="PlaceCol" minWidth="5.0" prefWidth="74.0" text="管理場所" />
+            <TableColumn fx:id="NumberCol" minWidth="3.0" prefWidth="52.0" text="数量" />
+            <TableColumn fx:id="DayCol" prefWidth="87.0" text="確認日" />
+         </columns>
+      </TableView>
+      <ComboBox fx:id="search1" layoutX="14.0" layoutY="25.0" onAction="#selecter1" prefHeight="25.0" prefWidth="140.0" />
+      <ComboBox fx:id="search2" layoutX="154.0" layoutY="25.0" onAction="#selecter2" prefHeight="25.0" prefWidth="140.0" />
+      <Button fx:id="change" layoutX="470.0" layoutY="11.0" mnemonicParsing="false" onAction="#onchange" prefHeight="53.0" prefWidth="116.0" text="編集を確定" />
+      <MenuButton fx:id="menus" layoutX="347.0" layoutY="11.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="116.0" text="各種登録‣削除">
+        <items>
+          <MenuItem mnemonicParsing="false" onAction="#onnewset" text="新規登録" />
+          <MenuItem mnemonicParsing="false" onAction="#onteacher" text="教員登録‣削除" />
+           <MenuItem mnemonicParsing="false" onAction="#onplace" text="管理場所登録‣削除" />
+        </items>
+      </MenuButton>
+   </children>
+</AnchorPane>

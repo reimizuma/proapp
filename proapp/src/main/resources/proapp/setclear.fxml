@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="282.0" prefWidth="483.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proapp.setclearController">
+   <children>
+      <Label layoutX="196.0" layoutY="94.0" prefHeight="38.0" prefWidth="227.0" text="登録が完了しました。" />
+      <Button fx:id="back" layoutX="107.0" layoutY="153.0" mnemonicParsing="false" onAction="#onback" text="続けて登録する" />
+      <Button fx:id="end" layoutX="294.0" layoutY="153.0" mnemonicParsing="false" onAction="#onend" text="登録を終了する" />
+   </children>
+</Pane>
