@@ -1,7 +1,7 @@
-module proapp{
+module proapp {
     requires javafx.controls;
     requires javafx.fxml;
 
-    opens org.openjfx to javafx.fxml;
-    exports org.openjfx;
+    opens proapp to javafx.fxml;
+    exports proapp;
 }
