@@ -28,7 +28,7 @@ import java.lang.String;
 
 public class ProappController {
 
-    private static int tabledatecount;
+    private static int tabledatecount, Nullcount;
 
     private static ArrayList<Integer> counter = new ArrayList<Integer>();
 
@@ -82,6 +82,7 @@ public class ProappController {
             data.clear();
             counter.clear();
             count = 0;
+            Nullcount = 0;
             int L;
             Object itemsXXX = search1.getValue();
             Object itemsXX = search2.getValue();
@@ -118,6 +119,7 @@ public class ProappController {
                                 if (XXXX.equals(ASSETCODE)) {
                                     data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
                                     counter.add(count);
+                                    Nullcount = 1;
                                 }
                             }
                         }
@@ -126,6 +128,7 @@ public class ProappController {
                             if (itemsXX == TeacherController.teacher.get(L) && data1[colno2].equals(TeacherController.teacher.get(L))) {
                                 data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
                                 counter.add(count);
+                                Nullcount = 1;
                             }
                         }
                     } else {
@@ -133,6 +136,7 @@ public class ProappController {
                             if (itemsXX == PlaceController.place.get(L) && data1[colno3].equals(PlaceController.place.get(L))) {
                                 data.addAll(new Data(false, data1[colno], data1[colno1], data1[colno2], data1[colno3], data1[colno4], data1[colno5]));
                                 counter.add(count);
+                                Nullcount = 1;
                             }
                         }
                     }
@@ -147,6 +151,9 @@ public class ProappController {
                 }
             }
             tabledatecount = counter.size();
+            if(Nullcount == 0){
+                counter.add(-1);
+            }
         }
     }
 
@@ -265,11 +272,11 @@ public class ProappController {
             if (data.get(check).getNumber().equals("未入力") || data.get(check).getNumber().isEmpty()) {
             } else {
                 if (isNumber(data.get(check).getNumber()) != 1 || data.get(check).getNumber().equals("-") || data.get(check).getNumber().equals("ー")){
-                    errCount++;
+                    errCount2++;
                 } else {
                     int num = Integer.parseInt(data.get(check).getNumber());
                     if (num < 1) {
-                        errCount2++;
+                        errCount++;
                     }
                 }
             }
@@ -328,8 +335,7 @@ public class ProappController {
 
                 for (i = 0; i < dates.size(); i++) {
                     try {
-                        FileWriter f = new FileWriter("data1.csv", true);
-                        PrintWriter p = new PrintWriter(new BufferedWriter(f));
+                        PrintWriter p = new PrintWriter(new BufferedWriter((new OutputStreamWriter(new FileOutputStream("data1.csv",true),StandardCharsets.UTF_8))));
                         p.print(dates.get(i).get(0));
                         p.print(",");
                         p.print(dates.get(i).get(1));
@@ -350,8 +356,7 @@ public class ProappController {
                 if (tabledatecount != -1) {
                     for (i = 0; i < tabledatecount; i++) {
                         try {
-                            FileWriter f = new FileWriter("data1.csv", true);
-                            PrintWriter p = new PrintWriter(new BufferedWriter(f));
+                            PrintWriter p = new PrintWriter(new BufferedWriter((new OutputStreamWriter(new FileOutputStream("data1.csv",true),StandardCharsets.UTF_8))));
                             p.print(data.get(i).getAssetcode());
                             p.print(",");
                             if(data.get(i).getAsset().isEmpty()){

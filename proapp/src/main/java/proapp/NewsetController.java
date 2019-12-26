@@ -74,17 +74,26 @@ public class NewsetController {
                         System.out.println(ex.getMessage());
                     }
                 } else {
-                    if (isNumber(N) == 1) {
-                        try {
-                            showSecondWindow();
-                        } catch (Exception ex) {
-                            System.out.println(ex.getMessage());
-                        }
-                    } else {
+                    if (isNumber(N) != 1 || N.equals("-") || N.equals("ー")) {
                         try {
                             showFourthWindow();
                         } catch (Exception ex) {
                             System.out.println(ex.getMessage());
+                        }
+                    } else {
+                        int N2 = Integer.parseInt(N);
+                        if(N2 <= 0){
+                            try {
+                                showFifthWindow();
+                            } catch (Exception ex) {
+                                System.out.println(ex.getMessage());
+                            }
+                        }else {
+                            try {
+                                showSecondWindow();
+                            } catch (Exception ex) {
+                                System.out.println(ex.getMessage());
+                            }
                         }
                     }
                 }
@@ -145,6 +154,15 @@ public class NewsetController {
 
     void showFourthWindow() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("err2.fxml"));
+        Pane root = (Pane) loader.load();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.showAndWait();
+    }
+
+    void showFifthWindow() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("err3.fxml"));
         Pane root = (Pane) loader.load();
         Scene scene = new Scene(root);
         Stage stage = new Stage();
