@@ -163,7 +163,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="949" />
     <option name="width" value="980" />
     <option name="height" value="1047" />
@@ -256,7 +256,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Gradle.proapp2 [jlinkZip]">
+  <component name="RunManager" selected="Gradle.proapp2 [run]">
     <configuration name="proapp [jlink]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
